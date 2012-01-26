@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans 
+       http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+       http://www.springframework.org/schema/context 
+       http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://camel.apache.org/schema/spring 
+       http://camel.apache.org/schema/spring/camel-spring.xsd">
+           
+    <bean id="gsonPushDataFormat" class="org.lunatool.services.GsonDataFormat">
+        <constructor-arg value="org.lunatool.services.PushEvent"/>
+    </bean>
+    
+    <bean id="recipientListBean" class="org.lunatool.services.RecipientListBean"/>
+           
+    <camelContext xmlns="http://camel.apache.org/schema/spring">
+
+        <route>
+            <from uri="jetty:http://0.0.0.0:8081/luna/services/push"/>
+            <unmarshal ref="gsonPushDataFormat"/>
+            <to uri="seda:pushEvents"/>
+        </route>
+        
+        <route>
+            <from uri="seda:inputEvents"/>
+            <to uri="velocity:org.lunatool.services.push-mail.vm?contentCache=true"/>
+            <bean ref="gsonPushDataFormat"/>
+            <recipientList>
+                <header>recipientList</header>
+            </recipientList>
+        </route>
+        
+        <route>
+            <from uri="seda:mailOutput"/>
+            <to uri="smtp:smtp.gmail.com:587?password=ixtto581&amp;username=noreply.lunatool@gmail.com&amp;mail.smtp.starttls.enable=true&amp;mail.smtp.auth=true"/>
+        </route>
+    </camelContext>
+
+</beans>
