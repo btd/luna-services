@@ -28,14 +28,14 @@ public class GsonDataFormat implements DataFormat {
     public void marshal(Exchange exchng, Object o, OutputStream out) throws Exception {
         Writer writer = new BufferedWriter(new OutputStreamWriter(out));
         gson.toJson(o, writer);
-        out.close();
+        writer.close();
     }
 
     @Override
     public Object unmarshal(Exchange exchng, InputStream in) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         Object result = gson.fromJson(reader, clazz);
-        in.close();
+        reader.close();
         return result;
     }
 }
