@@ -20,13 +20,13 @@
         <route>
             <from uri="jetty:http://0.0.0.0:8081/luna/services/push"/>
             <unmarshal ref="gsonPushDataFormat"/>
+            <bean ref="recipientListBean"/>
             <to uri="seda:pushEvents"/>
         </route>
         
         <route>
-            <from uri="seda:inputEvents"/>
-            <to uri="velocity:org.lunatool.services.push-mail.vm?contentCache=true"/>
-            <bean ref="gsonPushDataFormat"/>
+            <from uri="seda:pushEvents"/>
+            <to uri="velocity:/org/lunatool/services/PushMail.vm?contentCache=true"/>
             <recipientList>
                 <header>recipientList</header>
             </recipientList>
