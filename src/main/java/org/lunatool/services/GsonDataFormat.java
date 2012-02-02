@@ -4,18 +4,20 @@
  */
 package org.lunatool.services;
 
-import java.io.InputStream;
-import java.io.OutputStream;
 import org.apache.camel.Exchange;
 import org.apache.camel.spi.DataFormat;
 import com.google.gson.Gson;
 import java.io.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 /**
  *
  * @author denis.bardadym
  */
 public class GsonDataFormat implements DataFormat {
+
+    private static final Logger log = LoggerFactory.getLogger(GsonDataFormat.class);
 
     private Gson gson = new Gson();
     private Class<?> clazz;
@@ -35,6 +37,7 @@ public class GsonDataFormat implements DataFormat {
     public Object unmarshal(Exchange exchng, InputStream in) throws Exception {
         BufferedReader reader = new BufferedReader(new InputStreamReader(in));
         Object result = gson.fromJson(reader, clazz);
+
         reader.close();
         return result;
     }

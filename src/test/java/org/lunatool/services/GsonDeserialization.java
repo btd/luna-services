@@ -41,7 +41,6 @@ public class GsonDeserialization extends CamelTestSupport {
     @Test
     public void testMoveFile() throws Exception {
         PushEvent event = new PushEvent();
-        event.setServices(Arrays.asList("mail", "xmpp"));
         
         Map mailHeaders = new HashMap();
         mailHeaders.put("To", "some@example.org");
@@ -49,8 +48,7 @@ public class GsonDeserialization extends CamelTestSupport {
         Map headers = new HashMap();       
         headers.put("mail", mailHeaders);
         
-        event.setAdditionalHeaders(null);
-        event.setAdditionalHeaders(headers);
+        event.setServices(headers);
         event.setCommits(Arrays.asList(new Commit("Commit message1", new User("user1", "user1@example.org")),
                 new Commit("Commit message2", new User("user2", "user2@example.org"))));
         event.setPusher(new User("pusher", "his email"));

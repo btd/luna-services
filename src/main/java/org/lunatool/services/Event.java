@@ -12,9 +12,7 @@ import java.util.Map;
  * @author denis.bardadym
  */
 public interface Event {
-    Map<String, Map<String, String>> allHeaders();
-    
-    List<String> services();
+    Map<String, Map<String, String>> services();
     
     Map<String, String> headersFor(String service);
 }

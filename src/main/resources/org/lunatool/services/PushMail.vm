@@ -1,1 +1,3 @@
-Push event in $body.repository.name.
+#set( $subject = 'Someone make a push in ' + ${body.repository.name} )
+$in.setHeader('Subject', $subject )
+Push event in ${body.repository.name}.

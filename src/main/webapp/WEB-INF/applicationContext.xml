@@ -33,8 +33,8 @@
         </route>
         
         <route>
-            <from uri="seda:mailOutput"/>
-            <to uri="smtp:smtp.gmail.com:587?password=ixtto581&amp;username=noreply.lunatool@gmail.com&amp;mail.smtp.starttls.enable=true&amp;mail.smtp.auth=true"/>
+            <from uri="seda:emailOutput"/>
+            <to uri="smtp:smtp.gmail.com:587?password=ixtto581&amp;username=noreply.lunatool@gmail.com&amp;mail.smtp.starttls.enable=true&amp;mail.smtp.auth=true&amp;mapMailMessage=false"/>
         </route>
     </camelContext>
 

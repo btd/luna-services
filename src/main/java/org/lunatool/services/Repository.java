@@ -8,7 +8,7 @@ package org.lunatool.services;
  *
  * @author denis.bardadym
  */
-class Repository {
+public class Repository {
     private String name;
 
     public Repository(String name) {

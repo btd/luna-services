@@ -15,10 +15,9 @@ import java.util.Map;
  */
 public class PushEvent implements Event {
 
-    private List<String> services = new ArrayList<String>();
     private List<Commit> commits = new ArrayList<Commit>();
     private User gitPusher; //this is information from JGit
-    private Map<String, Map<String, String>> additionalHeaders = new HashMap<String, Map<String, String>>();
+    private Map<String, Map<String, String>> services = new HashMap<String, Map<String, String>>();
     
     private Repository repository;
     private User pusher;//this is from DB
@@ -26,12 +25,12 @@ public class PushEvent implements Event {
     public PushEvent() {
     }
 
-    public Map<String, Map<String, String>> getAdditionalHeaders() {
-        return additionalHeaders;
+    public Map<String, Map<String, String>> getServices() {
+        return services;
     }
 
-    public void setAdditionalHeaders(Map<String, Map<String, String>> additionalHeaders) {
-        this.additionalHeaders = additionalHeaders;
+    public void setServices(Map<String, Map<String, String>> services) {
+        this.services = services;
     }
 
     public List<Commit> getCommits() {
@@ -66,17 +65,9 @@ public class PushEvent implements Event {
         this.repository = repository;
     }
 
-    public List<String> getServices() {
-        return services;
-    }
-
-    public void setServices(List<String> services) {
-        this.services = services;
-    }
-
     @Override
     public String toString() {
-        return "PushEvent{" + "services=" + services + ", commits=" + commits + ", gitPusher=" + gitPusher + ", additionalHeaders=" + additionalHeaders + ", repository=" + repository + ", pusher=" + pusher + '}';
+        return "PushEvent{" + "commits=" + commits + ", gitPusher=" + gitPusher + ", services=" + services + ", repository=" + repository + ", pusher=" + pusher + '}';
     }
 
     @Override
@@ -97,9 +88,6 @@ public class PushEvent implements Event {
         if (this.gitPusher != other.gitPusher && (this.gitPusher == null || !this.gitPusher.equals(other.gitPusher))) {
             return false;
         }
-        if (this.additionalHeaders != other.additionalHeaders && (this.additionalHeaders == null || !this.additionalHeaders.equals(other.additionalHeaders))) {
-            return false;
-        }
         if (this.repository != other.repository && (this.repository == null || !this.repository.equals(other.repository))) {
             return false;
         }
@@ -115,25 +103,20 @@ public class PushEvent implements Event {
         hash = 97 * hash + (this.services != null ? this.services.hashCode() : 0);
         hash = 97 * hash + (this.commits != null ? this.commits.hashCode() : 0);
         hash = 97 * hash + (this.gitPusher != null ? this.gitPusher.hashCode() : 0);
-        hash = 97 * hash + (this.additionalHeaders != null ? this.additionalHeaders.hashCode() : 0);
         hash = 97 * hash + (this.repository != null ? this.repository.hashCode() : 0);
         hash = 97 * hash + (this.pusher != null ? this.pusher.hashCode() : 0);
         return hash;
     }
 
     @Override
-    public Map<String, Map<String, String>> allHeaders() {
-        return additionalHeaders;
-    }
-
-    @Override
-    public List<String> services() {
+    public Map<String, Map<String, String>> services() {
         return services;
     }
 
+
     @Override
     public Map<String, String> headersFor(String service) {
-        return allHeaders().get(service);
+        return services().get(service);
     }
     
     

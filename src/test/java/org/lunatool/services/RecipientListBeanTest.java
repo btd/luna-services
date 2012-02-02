@@ -22,17 +22,16 @@ public class RecipientListBeanTest {
      */
     @Test
     public void testProcessAdditionalHeaders() {
-        Map<String, Map<String, String>> additionalHeaders = new HashMap<String, Map<String, String>>();
+        Map<String, Map<String, String>> services = new HashMap<String, Map<String, String>>();
 
         Map<String, String> mailHeaders = new HashMap<String, String>();
         mailHeaders.put("To", "Claus Ibsen <davsclaus@apache.org>");
         mailHeaders.put("From", "James Strachan <jstrachan@apache.org>");
         mailHeaders.put("Subject", "Camel is cool");
-        additionalHeaders.put("mail", mailHeaders);
+        services.put("mail", mailHeaders);
 
         PushEvent body = new PushEvent();
-        body.setServices(Arrays.asList("mail"));
-        body.setAdditionalHeaders(additionalHeaders);
+        body.setServices(services);
 
         Map<String, Object> headers = new HashMap<String, Object>();
         RecipientListBean instance = new RecipientListBean();
