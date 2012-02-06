@@ -48,10 +48,13 @@ public class GsonDeserialization extends CamelTestSupport {
         Map headers = new HashMap();       
         headers.put("mail", mailHeaders);
         
-        event.setServices(headers);
-        event.setCommits(Arrays.asList(new Commit("Commit message1", new User("user1", "user1@example.org")),
+        Map changes = new HashMap();
+        changes.put("some_ref", Arrays.asList(new Commit("Commit message1", new User("user1", "user1@example.org")),
                 new Commit("Commit message2", new User("user2", "user2@example.org"))));
-        event.setPusher(new User("pusher", "his email"));
+        
+        event.setServices(headers);
+        event.setChangedHistory(changes);
+        event.setGitPusher(new User("pusher", "his email"));
         event.setGitPusher(new User("jgit pusher", "other email"));
         event.setRepository(new Repository("repo"));
         

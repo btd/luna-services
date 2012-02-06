@@ -1,3 +1,32 @@
-#set( $subject = 'Someone make a push in ' + ${body.repository.name} )
+#set( $subject = 'Push in ' + ${body.repository.name} )
 $in.setHeader('Subject', $subject )
-Push event in ${body.repository.name}.
+#if( ! $body.gitPusher )
+$body.gitPusher.name push commits in ${body.repository.name}.
+#else
+Someone push in ${body.repository.name}.
+#end
+
+#if( $body.newBranches && !$body.newBranches.isEmpty() )
+Branches added:
+#foreach( $newBranch in $body.newBranches )
+    $newBranch
+#end
+#end
+#if( $body.deletedBranches && !$body.deletedBranches.isEmpty() )
+Branches deleted:
+#foreach( $deletedBranch in $body.deletedBranches )
+    $deletedBranch
+#end
+#end
+
+#if( $body.changedHistory && !$body.changedHistory.isEmpty() )
+Changes in:
+#foreach( $change in $body.changedHistory.entrySet() )
+$change.key
+#foreach( $commit in $change.value )
+
+    $commit.message
+    by $commit.author.name <$commit.author.email> at $commit.date
+#end
+#end
+#end

@@ -15,30 +15,33 @@ import java.util.Map;
  */
 public class PushEvent implements Event {
 
-    private List<Commit> commits = new ArrayList<Commit>();
+    private List<String> newBranches = new ArrayList<String>();
+    private List<String> deletedBranches = new ArrayList<String>();
+
+    private Map<String, List<Commit>> changedHistory = new HashMap<String, List<Commit>>();
     private User gitPusher; //this is information from JGit
     private Map<String, Map<String, String>> services = new HashMap<String, Map<String, String>>();
     
     private Repository repository;
-    private User pusher;//this is from DB
+
 
     public PushEvent() {
     }
 
-    public Map<String, Map<String, String>> getServices() {
-        return services;
+    public Map<String, List<Commit>> getChangedHistory() {
+        return changedHistory;
     }
 
-    public void setServices(Map<String, Map<String, String>> services) {
-        this.services = services;
+    public void setChangedHistory(Map<String, List<Commit>> changedHistory) {
+        this.changedHistory = changedHistory;
     }
 
-    public List<Commit> getCommits() {
-        return commits;
+    public List<String> getDeletedBranches() {
+        return deletedBranches;
     }
 
-    public void setCommits(List<Commit> commits) {
-        this.commits = commits;
+    public void setDeletedBranches(List<String> deletedBranches) {
+        this.deletedBranches = deletedBranches;
     }
 
     public User getGitPusher() {
@@ -49,12 +52,12 @@ public class PushEvent implements Event {
         this.gitPusher = gitPusher;
     }
 
-    public User getPusher() {
-        return pusher;
+    public List<String> getNewBranches() {
+        return newBranches;
     }
 
-    public void setPusher(User pusher) {
-        this.pusher = pusher;
+    public void setNewBranches(List<String> newBranches) {
+        this.newBranches = newBranches;
     }
 
     public Repository getRepository() {
@@ -65,49 +68,16 @@ public class PushEvent implements Event {
         this.repository = repository;
     }
 
-    @Override
-    public String toString() {
-        return "PushEvent{" + "commits=" + commits + ", gitPusher=" + gitPusher + ", services=" + services + ", repository=" + repository + ", pusher=" + pusher + '}';
+    public Map<String, Map<String, String>> getServices() {
+        return services;
     }
 
-    @Override
-    public boolean equals(Object obj) {
-        if (obj == null) {
-            return false;
-        }
-        if (getClass() != obj.getClass()) {
-            return false;
-        }
-        final PushEvent other = (PushEvent) obj;
-        if (this.services != other.services && (this.services == null || !this.services.equals(other.services))) {
-            return false;
-        }
-        if (this.commits != other.commits && (this.commits == null || !this.commits.equals(other.commits))) {
-            return false;
-        }
-        if (this.gitPusher != other.gitPusher && (this.gitPusher == null || !this.gitPusher.equals(other.gitPusher))) {
-            return false;
-        }
-        if (this.repository != other.repository && (this.repository == null || !this.repository.equals(other.repository))) {
-            return false;
-        }
-        if (this.pusher != other.pusher && (this.pusher == null || !this.pusher.equals(other.pusher))) {
-            return false;
-        }
-        return true;
+    public void setServices(Map<String, Map<String, String>> services) {
+        this.services = services;
     }
 
-    @Override
-    public int hashCode() {
-        int hash = 5;
-        hash = 97 * hash + (this.services != null ? this.services.hashCode() : 0);
-        hash = 97 * hash + (this.commits != null ? this.commits.hashCode() : 0);
-        hash = 97 * hash + (this.gitPusher != null ? this.gitPusher.hashCode() : 0);
-        hash = 97 * hash + (this.repository != null ? this.repository.hashCode() : 0);
-        hash = 97 * hash + (this.pusher != null ? this.pusher.hashCode() : 0);
-        return hash;
-    }
-
+    
+  
     @Override
     public Map<String, Map<String, String>> services() {
         return services;
